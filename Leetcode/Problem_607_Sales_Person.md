@@ -47,5 +47,12 @@ The table orders holds the sales record information, salesperson and customer co
 | Alex |
 
 ```sql
-
+SELECT `name`
+FROM SALESPERSON
+WHERE sales_id NOT IN
+(SELECT sales_id
+FROM ORDERS AS O
+JOIN COMPANY AS C ON O.com_id = C.com_id
+JOIN SALESPERSON AS S ON S.sales_id = O.sales_id
+WHERE C.name = 'Red');
 ```
