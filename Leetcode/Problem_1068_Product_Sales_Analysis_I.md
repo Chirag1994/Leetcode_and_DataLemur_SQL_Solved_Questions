@@ -23,7 +23,7 @@ Note that the price is per unit.
 
 product_id is the primary key of this table.
 
-## Write an SQL query that reports the total quantity sold for every product id.
+## Write an SQL query that reports all product names of the products in the Sales table along with their selling year and price.
 
 For example:
 
@@ -45,17 +45,17 @@ For example:
 
 ### Result table:
 
-| product_id | total_quantity |
-| ---------- | -------------- |
-| 100        | 22             |
-| 200        | 15             |
+| product_name | year | price |
+| ------------ | ---- | ----- |
+| Nokia        | 2008 | 5000  |
+| Nokia        | 2009 | 5000  |
+| Apple        | 2011 | 9000  |
 
 #### Method 1:
 
 ```sql
 SELECT
-    S.product_id,
-    SUM(S.quantity) AS total_quantity
-FROM SALES AS S
-GROUP BY S.product_id;
+P.product_name, S.year, S.price
+FROM PRODUCT AS P
+JOIN SALES AS S ON P.product_id = S.product_id;
 ```
