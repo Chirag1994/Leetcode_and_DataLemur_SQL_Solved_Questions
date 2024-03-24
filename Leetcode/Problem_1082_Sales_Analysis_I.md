@@ -1,0 +1,66 @@
+## Description
+
+### Table: Project
+
+| Column Name | Type |
+| ----------- | ---- |
+| project_id  | int  |
+| employee_id | int  |
+
+(project_id, employee_id) is the primary key of this table.
+employee_id is a foreign key to Employee table.
+
+### Table: Employee
+
+| Column Name      | Type    |
+| ---------------- | ------- |
+| employee_id      | int     |
+| name             | varchar |
+| experience_years | int     |
+
+employee_id is the primary key of this table.
+
+## Write an SQL query that reports all the projects that have the most employees.
+
+The query result format is in the following example:
+
+### Project table:
+
+| project_id | employee_id |
+| ---------- | ----------- |
+| 1          | 1           |
+| 1          | 2           |
+| 1          | 3           |
+| 2          | 1           |
+| 2          | 4           |
+
+### Employee table:
+
+| employee_id | name   | experience_years |
+| ----------- | ------ | ---------------- |
+| 1           | Khaled | 3                |
+| 2           | Ali    | 2                |
+| 3           | John   | 1                |
+| 4           | Doe    | 2                |
+
+### Result table:
+
+| project_id |
+| ---------- |
+| 1          |
+
+#### Method 1:
+
+```sql
+SELECT
+    S.seller_id
+FROM SALES AS S
+GROUP BY S.seller_id
+HAVING SUM(S.Price) =
+    (SELECT
+        SUM(S.price) AS TOTAL_SALES_PRICE
+    FROM SALES
+    GROUP BY S.seller_id
+    ORDER BY TOTAL_SALES_PRICE DESC
+    LIMIT 1);
+```
