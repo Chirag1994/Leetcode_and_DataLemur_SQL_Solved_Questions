@@ -20,7 +20,7 @@ employee_id is a foreign key to Employee table.
 
 employee_id is the primary key of this table.
 
-## Write an SQL query that reports the average experience years of all the employees for each project, rounded to 2 digits.
+## Write an SQL query that reports all the projects that have the most employees.
 
 The query result format is in the following example:
 
@@ -45,13 +45,22 @@ The query result format is in the following example:
 
 ### Result table:
 
-| project_id | average_years |
-| ---------- | ------------- |
-| 1          | 2.00          |
-| 2          | 2.50          |
+| project_id |
+| ---------- |
+| 1          |
 
 #### Method 1:
 
 ```sql
-
+SELECT P.project_id
+FROM PROJECT AS P
+LEFT JOIN EMPLOYEE AS E
+ON P.employee_id = E.employee_id
+GROUP BY P.project_id
+HAVING COUNT(P.employee_id) =
+    (SELECT MAX(P.employee_count)
+        FROM (SELECT project_id, COUNT(employee_id) AS employee_count
+                FROM project
+                GROUP BY project_id) AS P1
+    );
 ```
