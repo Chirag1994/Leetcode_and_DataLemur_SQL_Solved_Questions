@@ -33,29 +33,41 @@ refunded is the amount refunded for this invoice.
 The query result format is in the following example:
 
 Product table:
-| product_id | name |
-|------------|-------|
-| 0 | ham |
-| 1 | bacon |
+
+| product_id | name  |
+| ---------- | ----- |
+| 0          | ham   |
+| 1          | bacon |
 
 Invoice table:
+
 | invoice_id | product_id | rest | paid | canceled | refunded |
-|------------|------------|------|------|----------|----------|
-| 23 | 0 | 2 | 0 | 5 | 0 |
-| 12 | 0 | 0 | 4 | 0 | 3 |
-| 1 | 1 | 1 | 1 | 0 | 1 |
-| 2 | 1 | 1 | 0 | 1 | 1 |
-| 3 | 1 | 0 | 1 | 1 | 1 |
-| 4 | 1 | 1 | 1 | 1 | 0 |
+| ---------- | ---------- | ---- | ---- | -------- | -------- |
+| 23         | 0          | 2    | 0    | 5        | 0        |
+| 12         | 0          | 0    | 4    | 0        | 3        |
+| 1          | 1          | 1    | 1    | 0        | 1        |
+| 2          | 1          | 1    | 0    | 1        | 1        |
+| 3          | 1          | 0    | 1    | 1        | 1        |
+| 4          | 1          | 1    | 1    | 1        | 0        |
 
 Result table:
-| name | rest | paid | canceled | refunded |
-|-------|------|------|----------|----------|
-| bacon | 3 | 3 | 3 | 3 |
-| ham | 2 | 4 | 5 | 3 |
+
+| name  | rest | paid | canceled | refunded |
+| ----- | ---- | ---- | -------- | -------- |
+| bacon | 3    | 3    | 3        | 3        |
+| ham   | 2    | 4    | 5        | 3        |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    P.product_name,
+    SUM(I.rest) AS rest,
+    SUM(I.paid) AS paid,
+    SUM(I.canceled) AS canceled,
+    SUM(I.refunded) AS refunded
+FROM PRODUCT AS P JOIN INVOICE AS I
+ON P.product_id = I.product_id
+GROUP BY P.product_name
+ORDER BY P.product_name;
 ```
