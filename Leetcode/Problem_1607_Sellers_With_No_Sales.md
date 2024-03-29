@@ -39,35 +39,49 @@ Each row of this table contains the information of each seller.
 The query result format is in the following example.
 
 Customer table:
+
 | customer_id | customer_name |
-|-------------|---------------|
-| 101 | Alice |
-| 102 | Bob |
-| 103 | Charlie |
+| ----------- | ------------- |
+| 101         | Alice         |
+| 102         | Bob           |
+| 103         | Charlie       |
 
 Orders table:
-| order_id | sale_date | order_cost | customer_id | seller_id |
-|----------|------------|------------|-------------|-----------|
-| 1 | 2020-03-01 | 1500 | 101 | 1 |
-| 2 | 2020-05-25 | 2400 | 102 | 2 |
-| 3 | 2019-05-25 | 800 | 101 | 3 |
-| 4 | 2020-09-13 | 1000 | 103 | 2 |
-| 5 | 2019-02-11 | 700 | 101 | 2 |
+
+| order_id | sale_date  | order_cost | customer_id | seller_id |
+| -------- | ---------- | ---------- | ----------- | --------- |
+| 1        | 2020-03-01 | 1500       | 101         | 1         |
+| 2        | 2020-05-25 | 2400       | 102         | 2         |
+| 3        | 2019-05-25 | 800        | 101         | 3         |
+| 4        | 2020-09-13 | 1000       | 103         | 2         |
+| 5        | 2019-02-11 | 700        | 101         | 2         |
 
 Seller table:
+
 | seller_id | seller_name |
-|-----------|-------------|
-| 1 | Daniel |
-| 2 | Elizabeth |
-| 3 | Frank |
+| --------- | ----------- |
+| 1         | Daniel      |
+| 2         | Elizabeth   |
+| 3         | Frank       |
 
 Result table:
+
 | seller_name |
-|-------------|
-| Frank |
+| ----------- |
+| Frank       |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    seller_name
+FROM SELLER
+WHERE seller_id NOT IN  (
+    SELECT
+        seller_id
+    FROM ORDERS
+    WHERE YEAR(sale_date) = 2020
+    GROUP BY seller_id
+)
+ORDER BY seller_name;
 ```
