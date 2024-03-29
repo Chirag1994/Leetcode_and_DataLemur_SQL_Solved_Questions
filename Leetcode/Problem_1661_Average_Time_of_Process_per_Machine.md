@@ -23,30 +23,41 @@ The 'start' timestamp will always be before the 'end' timestamp for every (machi
 The query result format is in the following example:
 
 Activity table:
+
 | machine_id | process_id | activity_type | timestamp |
-|------------|------------|---------------|-----------|
-| 0 | 0 | start | 0.712 |
-| 0 | 0 | end | 1.520 |
-| 0 | 1 | start | 3.140 |
-| 0 | 1 | end | 4.120 |
-| 1 | 0 | start | 0.550 |
-| 1 | 0 | end | 1.550 |
-| 1 | 1 | start | 0.430 |
-| 1 | 1 | end | 1.420 |
-| 2 | 0 | start | 4.100 |
-| 2 | 0 | end | 4.512 |
-| 2 | 1 | start | 2.500 |
-| 2 | 1 | end | 5.000 |
+| ---------- | ---------- | ------------- | --------- |
+| 0          | 0          | start         | 0.712     |
+| 0          | 0          | end           | 1.520     |
+| 0          | 1          | start         | 3.140     |
+| 0          | 1          | end           | 4.120     |
+| 1          | 0          | start         | 0.550     |
+| 1          | 0          | end           | 1.550     |
+| 1          | 1          | start         | 0.430     |
+| 1          | 1          | end           | 1.420     |
+| 2          | 0          | start         | 4.100     |
+| 2          | 0          | end           | 4.512     |
+| 2          | 1          | start         | 2.500     |
+| 2          | 1          | end           | 5.000     |
 
 Result table:
+
 | machine_id | processing_time |
-|------------|-----------------|
-| 0 | 0.894 |
-| 1 | 0.995 |
-| 2 | 1.456 |
+| ---------- | --------------- |
+| 0          | 0.894           |
+| 1          | 0.995           |
+| 2          | 1.456           |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    S.machine_id,
+    ROUND(AVG(E.timestamp - S.timestamp), 3) AS processing_time
+FROM ACTIVITY AS S JOIN ACTIVITY AS E
+ON S.machine_id = E.machine_id AND
+    S.process_id = E.process_id
+    AND S.activity_type = 'start'
+    AND E.activity_type = 'end'
+GROUP BY S.machine_id
+ORDER BY NULL;
 ```
