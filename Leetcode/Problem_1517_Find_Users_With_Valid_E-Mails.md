@@ -1,11 +1,12 @@
 ## Description
 
 Table: Users
-| Column Name | Type |
-|-------------|---------|
-| user_id | int |
-| name | varchar |
-| mail | varchar |
+
+| Column Name | Type    |
+| ----------- | ------- |
+| user_id     | int     |
+| name        | varchar |
+| mail        | varchar |
 
 user_id is the primary key for this table.
 This table contains information of the users signed up in a website. Some e-mails are invalid.
@@ -19,26 +20,36 @@ Return the result table in any order.
 
 The query result format is in the following example.
 
-Users
-| user_id | name | mail |
-|---------|-----------|-------------------------|
-| 1 | Winston | winston@leetcode.com |
-| 2 | Jonathan | jonathanisgreat |
-| 3 | Annabelle | bella-@leetcode.com |
-| 4 | Sally | sally.come@leetcode.com |
-| 5 | Marwan | quarz#2020@leetcode.com |
-| 6 | David | david69@gmail.com |
-| 7 | Shapiro | .shapo@leetcode.com |
+Users table:
+
+| user_id | name      | mail                    |
+| ------- | --------- | ----------------------- |
+| 1       | Winston   | winston@leetcode.com    |
+| 2       | Jonathan  | jonathanisgreat         |
+| 3       | Annabelle | bella-@leetcode.com     |
+| 4       | Sally     | sally.come@leetcode.com |
+| 5       | Marwan    | quarz#2020@leetcode.com |
+| 6       | David     | david69@gmail.com       |
+| 7       | Shapiro   | .shapo@leetcode.com     |
 
 Result table:
-| user_id | name | mail |
-|---------|-----------|-------------------------|
-| 1 | Winston | winston@leetcode.com |
-| 3 | Annabelle | bella-@leetcode.com |
-| 4 | Sally | sally.come@leetcode.com |
+
+| user_id | name      | mail                    |
+| ------- | --------- | ----------------------- |
+| 1       | Winston   | winston@leetcode.com    |
+| 3       | Annabelle | bella-@leetcode.com     |
+| 4       | Sally     | sally.come@leetcode.com |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    user_id,
+    name,
+    mail
+FROM
+    Users
+WHERE
+    mail LIKE '%@leetcode.com'
+    AND mail REGEXP '^[A-Za-z][A-Za-z0-9_.-]*@leetcode\.com$';
 ```
