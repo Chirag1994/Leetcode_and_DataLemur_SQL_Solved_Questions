@@ -45,31 +45,44 @@ There is a country with three schools, where each student is enrolled in exactly
 The query result format is in the following example.
 
 SchoolA table:
+
 | student_id | student_name |
-|------------|--------------|
-| 1 | Alice |
-| 2 | Bob |
+| ---------- | ------------ |
+| 1          | Alice        |
+| 2          | Bob          |
 
 SchoolB table:
+
 | student_id | student_name |
-|------------|--------------|
-| 3 | Tom |
+| ---------- | ------------ |
+| 3          | Tom          |
 
 SchoolC table:
+
 | student_id | student_name |
-|------------|--------------|
-| 3 | Tom |
-| 2 | Jerry |
-| 10 | Alice |
+| ---------- | ------------ |
+| 3          | Tom          |
+| 2          | Jerry        |
+| 10         | Alice        |
 
 Result table:
+
 | member_A | member_B | member_C |
-|----------|----------|----------|
-| Alice | Tom | Jerry |
-| Bob | Tom | Alice |
+| -------- | -------- | -------- |
+| Alice    | Tom      | Jerry    |
+| Bob      | Tom      | Alice    |
 
 #### Method 41:
 
 ```sql
-
+SELECT
+    A.student_id AS member_A,
+    B.student_id AS member_B,
+    C.student_id AS member_C
+FROM SchoolA AS A
+JOIN SchoolB AS B
+ON (A.student_id != B.student_id AND A.student_name != B.student_name)
+JOIN SchoolC
+ON (A.student_id != C.student_id AND A.student_name != C.student_name)
+AND (B.student_id != C.student_id AND B.student_name != C.student_name);
 ```
