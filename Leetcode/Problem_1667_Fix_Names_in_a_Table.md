@@ -15,19 +15,25 @@ This table contains the ID and the name of the user. The name consists of only l
 The query result format is in the following example:
 
 Users table:
-| user_id | name |
-|---------|-------|
-| 1 | aLice |
-| 2 | bOB |
+
+| user_id | name  |
+| ------- | ----- |
+| 1       | aLice |
+| 2       | bOB   |
 
 Result table:
-| user_id | name |
-|---------|-------|
-| 1 | Alice |
-| 2 | Bob |
+
+| user_id | name  |
+| ------- | ----- |
+| 1       | Alice |
+| 2       | Bob   |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    user_id,
+    CONCAT(UPPER(LEFT(name,1)), SUBSTRING(name, 2)) AS name
+FROM USERS
+ORDER BY user_id;
 ```
