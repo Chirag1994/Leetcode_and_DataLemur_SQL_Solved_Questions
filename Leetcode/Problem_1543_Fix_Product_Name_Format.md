@@ -23,26 +23,34 @@ Return the result table ordered by product_name in ascending order, in case of a
 
 The query result format is in the following example.
 
-Sales
-| sale_id | product_name | sale_date |
-|---------|--------------|------------|
-| 1 | LCPHONE | 2000-01-16 |
-| 2 | LCPhone | 2000-01-17 |
-| 3 | LcPhOnE | 2000-02-18 |
-| 4 | LCKeyCHAiN | 2000-02-19 |
-| 5 | LCKeyChain | 2000-02-28 |
-| 6 | Matryoshka | 2000-03-31 |
+Sales table:
+
+| sale_id | product_name | sale_date  |
+| ------- | ------------ | ---------- |
+| 1       | LCPHONE      | 2000-01-16 |
+| 2       | LCPhone      | 2000-01-17 |
+| 3       | LcPhOnE      | 2000-02-18 |
+| 4       | LCKeyCHAiN   | 2000-02-19 |
+| 5       | LCKeyChain   | 2000-02-28 |
+| 6       | Matryoshka   | 2000-03-31 |
 
 Result table:
+
 | product_name | sale_date | total |
-|--------------|-----------|-------|
-| lcphone | 2000-01 | 2 |
-| lckeychain | 2000-02 | 2 |
-| lcphone | 2000-02 | 1 |
-| matryoshka | 2000-03 | 1 |
+| ------------ | --------- | ----- |
+| lcphone      | 2000-01   | 2     |
+| lckeychain   | 2000-02   | 2     |
+| lcphone      | 2000-02   | 1     |
+| matryoshka   | 2000-03   | 1     |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    TRIM(LOWER(product_name)) AS Product_name,
+    LEFT(sale_date, 7) AS Sale_date,
+    COUNT(sale_id) AS Total
+FROM SALES
+GROUP BY Product_name, Sale_date
+ORDER BY Product_name, Sale_date;
 ```
