@@ -29,30 +29,39 @@ All accounts start with a balance 0.
 The query result format is in the following example.
 
 Users table:
-| account | name |
-|---------|---------|
-| 900001 | Alice |
-| 900002 | Bob |
-| 900003 | Charlie |
+
+| account | name    |
+| ------- | ------- |
+| 900001  | Alice   |
+| 900002  | Bob     |
+| 900003  | Charlie |
 
 Transactions table:
+
 | trans_id | account | amount | transacted_on |
-|----------|---------|--------|---------------|
-| 1 | 900001 | 7000 | 2020-08-01 |
-| 2 | 900001 | 7000 | 2020-09-01 |
-| 3 | 900001 | -3000 | 2020-09-02 |
-| 4 | 900002 | 1000 | 2020-09-12 |
-| 5 | 900003 | 6000 | 2020-08-07 |
-| 6 | 900003 | 6000 | 2020-09-07 |
-| 7 | 900003 | -4000 | 2020-09-11 |
+| -------- | ------- | ------ | ------------- |
+| 1        | 900001  | 7000   | 2020-08-01    |
+| 2        | 900001  | 7000   | 2020-09-01    |
+| 3        | 900001  | -3000  | 2020-09-02    |
+| 4        | 900002  | 1000   | 2020-09-12    |
+| 5        | 900003  | 6000   | 2020-08-07    |
+| 6        | 900003  | 6000   | 2020-09-07    |
+| 7        | 900003  | -4000  | 2020-09-11    |
 
 Result table:
-| name | balance |
-|--------|---------|
-| Alice | 11000 |
+
+| name  | balance |
+| ----- | ------- |
+| Alice | 11000   |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    `name`,
+    SUM(amount) AS balance
+FROM USERS JOIN TRANSACTIONS
+ON USERS.account = TRANSACTIONS.account
+GROUP BY `name`
+HAVING balance > 10000;
 ```
