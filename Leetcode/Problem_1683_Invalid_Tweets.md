@@ -28,5 +28,8 @@ Result table:
 #### Method 1:
 
 ```sql
-
+SELECT
+    tweet_id
+FROM TWEETS
+WHERE LENGTH(content) >15;
 ```
