@@ -15,15 +15,17 @@ This table contains all the tweets in a social media app.
 The query result format is in the following example:
 
 Tweets table:
-| tweet_id | content |
-|----------|----------------------------------|
-| 1 | Vote for Biden |
-| 2 | Let us make America great again! |
+
+| tweet_id | content                          |
+| -------- | -------------------------------- |
+| 1        | Vote for Biden                   |
+| 2        | Let us make America great again! |
 
 Result table:
+
 | tweet_id |
-|----------|
-| 2 |
+| -------- |
+| 2        |
 
 #### Method 1:
 
