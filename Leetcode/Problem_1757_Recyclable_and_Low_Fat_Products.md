@@ -2,13 +2,11 @@
 
 Table: Products
 
-+-------------+---------+
 | Column Name | Type |
-+-------------+---------+
-| product_id | int |
-| low_fats | enum |
-| recyclable | enum |
-+-------------+---------+
+| ----------- | ---- |
+| product_id  | int  |
+| low_fats    | enum |
+| recyclable  | enum |
 
 product_id is the primary key for this table.
 low_fats is an ENUM of type ('Y', 'N') where 'Y' means this product is low fat and 'N' means it is not.
@@ -19,26 +17,29 @@ recyclable is an ENUM of types ('Y', 'N') where 'Y' means this product is recycl
 The query result format is in the following example:
 
 Products table:
-+-------------+----------+------------+
+
 | product_id | low_fats | recyclable |
-+-------------+----------+------------+
-| 0 | Y | N |
-| 1 | Y | Y |
-| 2 | N | Y |
-| 3 | Y | Y |
-| 4 | N | N |
-+-------------+----------+------------+
+| ---------- | -------- | ---------- |
+| 0          | Y        | N          |
+| 1          | Y        | Y          |
+| 2          | N        | Y          |
+| 3          | Y        | Y          |
+| 4          | N        | N          |
 
 Result table:
-+-------------+
+
 | product_id |
-+-------------+
-| 1 |
-| 3 |
-+-------------+
+| ---------- |
+| 1          |
+| 3          |
+| 1          |
+| 3          |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    product_id
+FROM PRODUCTS
+WHERE low_fats = 'Y' AND recyclable = 'Y'
 ```
