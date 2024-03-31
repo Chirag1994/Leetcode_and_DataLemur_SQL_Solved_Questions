@@ -2,13 +2,11 @@
 
 Table: Employee
 
-+---------------+-------------+
-| Column Name | Type |
-+---------------+-------------+
-| employee_id | int |
-| department_id | int |
-| primary_flag | varchar |
-+---------------+-------------+
+| Column Name   | Type    |
+| ------------- | ------- |
+| employee_id   | int     |
+| department_id | int     |
+| primary_flag  | varchar |
 
 (employee_id, department_id) is the primary key for this table.
 employee_id is the id of the employee.
@@ -21,30 +19,51 @@ Employees can belong to multiple departments. When the employee joins other depa
 The query result format is in the following example.
 
 Employee table:
-+-------------+---------------+--------------+
+
 | employee_id | department_id | primary_flag |
-+-------------+---------------+--------------+
-| 1 | 1 | N |
-| 2 | 1 | Y |
-| 2 | 2 | N |
-| 3 | 3 | N |
-| 4 | 2 | N |
-| 4 | 3 | Y |
-| 4 | 4 | N |
-+-------------+---------------+--------------+
+| ----------- | ------------- | ------------ |
+| 1           | 1             | N            |
+| 2           | 1             | Y            |
+| 2           | 2             | N            |
+| 3           | 3             | N            |
+| 4           | 2             | N            |
+| 4           | 3             | Y            |
+| 4           | 4             | N            |
 
 Result table:
-+-------------+---------------+
+
 | employee_id | department_id |
-+-------------+---------------+
-| 1 | 1 |
-| 2 | 1 |
-| 3 | 3 |
-| 4 | 3 |
-+-------------+---------------+
+| ----------- | ------------- |
+| 1           | 1             |
+| 2           | 1             |
+| 3           | 3             |
+| 4           | 3             |
 
 #### Method 1:
 
 ```sql
+SELECT
+    employee_id,
+    department_id
+FROM EMPLOYEE
+WHERE primary_flag = 'Y' OR employee_id IN (
+    SELECT employee_id
+        FROM
+    EMPLOYEE
+    GROUP BY employee_id
+    HAVING COUNT(department_id) = 1
+)
+```
 
+#### Method 2:
+
+```sql
+SELECT employee_id, department_id
+FROM Employee
+GROUP BY 1
+HAVING COUNT( department_id) = 1
+UNION
+SELECT employee_id, department_id
+FROM Employee
+WHERE primary_flag = "Y"
 ```
