@@ -2,14 +2,12 @@
 
 Table: Playback
 
-+-------------+---------+
 | Column Name | Type |
-+-------------+---------+
-| session_id | int |
-| customer_id | int |
-| start_time | int |
-| end_time | int |
-+-------------+---------+
+| ----------- | ---- |
+| session_id  | int  |
+| customer_id | int  |
+| start_time  | int  |
+| end_time    | int  |
 
 session_id is the primary key for this table.
 customer_id is the ID of the customer watching this session.
@@ -18,13 +16,11 @@ It is guaranteed that start_time <= end_time and that two sessions for the same 
 
 Table: Ads
 
-+-------------+------+
 | Column Name | Type |
-+-------------+------+
-| ad_id | int |
-| customer_id | int |
-| timestamp | int |
-+-------------+------+
+| ----------- | ---- |
+| ad_id       | int  |
+| customer_id | int  |
+| timestamp   | int  |
 
 ad_id is the primary key for this table.
 customer_id is the ID of the customer viewing this ad.
@@ -35,36 +31,53 @@ timestamp is the moment of time at which the ad was shown.
 The query result format is in the following example:
 
 Playback table:
-+------------+-------------+------------+----------+
+
 | session_id | customer_id | start_time | end_time |
-+------------+-------------+------------+----------+
-| 1 | 1 | 1 | 5 |
-| 2 | 1 | 15 | 23 |
-| 3 | 2 | 10 | 12 |
-| 4 | 2 | 17 | 28 |
-| 5 | 2 | 2 | 8 |
-+------------+-------------+------------+----------+
+| ---------- | ----------- | ---------- | -------- |
+| 1          | 1           | 1          | 5        |
+| 2          | 1           | 15         | 23       |
+| 3          | 2           | 10         | 12       |
+| 4          | 2           | 17         | 28       |
+| 5          | 2           | 2          | 8        |
 
 Ads table:
-+-------+-------------+-----------+
+
 | ad_id | customer_id | timestamp |
-+-------+-------------+-----------+
-| 1 | 1 | 5 |
-| 2 | 2 | 17 |
-| 3 | 2 | 20 |
-+-------+-------------+-----------+
+| ----- | ----------- | --------- |
+| 1     | 1           | 5         |
+| 2     | 2           | 17        |
+| 3     | 2           | 20        |
 
 Result table:
-+------------+
+
 | session_id |
-+------------+
-| 2 |
-| 3 |
-| 5 |
-+------------+
+| ---------- |
+| 2          |
+| 3          |
+| 5          |
 
 #### Method 1:
 
 ```sql
+SELECT
+    session_id
+FROM PLAYBACK
+WHERE session_id NOT IN (
+    SELECT
+        session_id
+    FROM PLAYBACK LEFT JOIN ADS
+    ON PLAYBACK.customer_id = ADS.customer_id
+    WHERE ADS.timestamp BETWEEN PLAYBACK.start_time AND PLAYBACK.end_time AND ADS.timestamp IS NOT NULL
+)
+```
 
+#### Method 2:
+
+```sql
+SELECT
+    session_id
+FROM PLAYBACK JOIN ADS
+ON PLAYBACK.customer_id = ADS.customer_id
+AND PLAYBACK.start_time <= ADS.timestamp AND ADS.timestamp <= PLAYBACK.end_time
+WHERE ADS.ad_id IS NULL
 ```
