@@ -16,25 +16,32 @@ Each row of this table indicates the employee ID, employee name, and salary.
 The query result format is in the following example:
 
 Employees table:
-| employee_id | name | salary |
-|-------------|---------|--------|
-| 2 | Meir | 3000 |
-| 3 | Michael | 3800 |
-| 7 | Addilyn | 7400 |
-| 8 | Juan | 6100 |
-| 9 | Kannon | 7700 |
+
+| employee_id | name    | salary |
+| ----------- | ------- | ------ |
+| 2           | Meir    | 3000   |
+| 3           | Michael | 3800   |
+| 7           | Addilyn | 7400   |
+| 8           | Juan    | 6100   |
+| 9           | Kannon  | 7700   |
 
 Result table:
+
 | employee_id | bonus |
-|-------------|-------|
-| 2 | 0 |
-| 3 | 0 |
-| 7 | 7400 |
-| 8 | 0 |
-| 9 | 7700 |
+| ----------- | ----- |
+| 2           | 0     |
+| 3           | 0     |
+| 7           | 7400  |
+| 8           | 0     |
+| 9           | 7700  |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    employee_id,
+    (CASE WHEN employee_id % 2 != 0 AND LEFT(name, 1) != 'M' THEN salary
+        ELSE 0 END) AS bonus
+FROM EMPLOYEES
+ORDER BY employee_id
 ```
