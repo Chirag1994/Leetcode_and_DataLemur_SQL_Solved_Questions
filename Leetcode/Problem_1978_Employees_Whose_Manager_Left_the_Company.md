@@ -17,22 +17,39 @@ This table contains information about the employees, their salary, and the ID of
 The query result format is in the following example.
 
 Employees table:
-| employee_id | name | manager_id | salary |
-|-------------|-----------|------------|--------|
-| 3 | Mila | 9 | 60301 |
-| 12 | Antonella | null | 31000 |
-| 13 | Emery | null | 67084 |
-| 1 | Kalel | 11 | 21241 |
-| 9 | Mikaela | null | 50937 |
-| 11 | Joziah | 6 | 28485 |
+
+| employee_id | name      | manager_id | salary |
+| ----------- | --------- | ---------- | ------ |
+| 3           | Mila      | 9          | 60301  |
+| 12          | Antonella | null       | 31000  |
+| 13          | Emery     | null       | 67084  |
+| 1           | Kalel     | 11         | 21241  |
+| 9           | Mikaela   | null       | 50937  |
+| 11          | Joziah    | 6          | 28485  |
 
 Output:
+
 | employee_id |
-|-------------|
-| 11 |
+| ----------- |
+| 11          |
 
 #### Method 1:
 
 ```sql
+SELECT
+    E1.employee_id
+FROM EMPLOYEES AS E1
+LEFT JOIN EMPLOYEES AS E2 ON
+E1.manager_id = E2.employee_id
+WHERE E1.salary < 30000 AND E1.manager_id IS NOT NULL AND E2.employee_id IS NULL
+ORDER BY E1.employee_id
+```
 
+#### Method 2:
+
+```sql
+SELECT employee_id FROM Employees
+WHERE manager_id NOT IN (SELECT employee_id FROM Employees)
+AND salary < 30000
+ORDER BY employee_id;
 ```
