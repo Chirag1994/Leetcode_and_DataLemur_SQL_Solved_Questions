@@ -30,27 +30,39 @@ Return the result table ordered by employee_id in ascending order.
 The query result format is in the following example:
 
 Employees table:
-| employee_id | name |
-|-------------|----------|
-| 2 | Crew |
-| 4 | Haven |
-| 5 | Kristian |
+
+| employee_id | name     |
+| ----------- | -------- |
+| 2           | Crew     |
+| 4           | Haven    |
+| 5           | Kristian |
 
 Salaries table:
+
 | employee_id | salary |
-|-------------|--------|
-| 5 | 76071 |
-| 1 | 22517 |
-| 4 | 63539 |
+| ----------- | ------ |
+| 5           | 76071  |
+| 1           | 22517  |
+| 4           | 63539  |
 
 Result table:
+
 | employee_id |
-|-------------|
-| 1 |
-| 2 |
+| ----------- |
+| 1           |
+| 2           |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    employee_id
+FROM (
+    SELECT employee_id FROM EMPLOYEES
+    UNION ALL
+    SELECT employee_id FROM SALARIES
+) AS TEMP
+GROUP BY employee_id
+HAVING COUNT(employee_id) = 1
+ORDER BY employee_id
 ```
