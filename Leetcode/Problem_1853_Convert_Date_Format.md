@@ -2,11 +2,9 @@
 
 Table: Days
 
-+-------------+------+
 | Column Name | Type |
-+-------------+------+
-| day | date |
-+-------------+------+
+| ----------- | ---- |
+| day         | date |
 
 day is the primary key for this table.
 
@@ -15,25 +13,26 @@ day is the primary key for this table.
 The query result format is in the following example:
 
 Days table:
-+------------+
-| day |
-+------------+
+
+| day        |
+| ---------- |
 | 2022-04-12 |
 | 2021-08-09 |
 | 2020-06-26 |
-+------------+
 
 Result table:
-+-------------------------+
-| day |
-+-------------------------+
+
+| day                     |
+| ----------------------- |
 | Tuesday, April 12, 2022 |
-| Monday, August 9, 2021 |
-| Friday, June 26, 2020 |
-+-------------------------+
+| Monday, August 9, 2021  |
+| Friday, June 26, 2020   |
 
 #### Method 1:
 
 ```sql
-
+SELECT
+    CONCAT(DAYNAME(day), ", ", MONTHNAME(day), " ", DAY(day), ", ", YEAR(day))
+    AS `day`
+FROM DAYS
 ```
