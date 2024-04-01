@@ -45,6 +45,6 @@ SELECT
     user_id,
     MAX(time_stamp) AS last_stamp
 FROM LOGINS
-WHERE YEAR(time_stamp) = 2020
+WHERE YEAR(time_stamp) = 2020j
 GROUP BY user_id
 ```
